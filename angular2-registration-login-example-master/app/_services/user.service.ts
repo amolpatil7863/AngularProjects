@@ -19,7 +19,7 @@ export class UserService {
 
     create(user: User) {
         console.log("saving user"+JSON.stringify(user));
-        return this.http.post('http://localhost:8084/api/users/signup', user);
+        return this.http.post('http://localhost:8084/api/v1/users/signup', user);
     }
 
     update(user: User) {
