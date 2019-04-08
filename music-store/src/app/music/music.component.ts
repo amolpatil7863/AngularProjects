@@ -22,10 +22,10 @@ export class MusicComponent implements OnInit {
           this.resultArray=result;
           this.musicAlbum=result;
         
-          this.resultArray.forEach(contact => {
-            console.log(contact.id);
+          this.musicAlbum.forEach(contact => {
+            console.log(contact);
           });
-          console.log("data from server:::" +this.musicAlbum);
+        
         },
         error => {
           console.log(JSON.stringify(error))

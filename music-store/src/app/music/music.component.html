@@ -12,10 +12,10 @@
       <tr *ngFor="let music of musicAlbum">
         <td>{{music.id}}</td>
         <td>{{ music.albumName }}</td>
-        <td> <img
-            src="data:image/png;base64, {{music.albumImage}} | safeUrl"
+        <!-- <td> <img
+            src="{{music.albumImage | safeUrl}} "
             alt="Red dot" />
-        </td>
+        </td> -->
           <!-- <td>{{ music."albumName" }}</td> -->
           <!-- <td>{{ music.age }}</td> -->
       </tr>
