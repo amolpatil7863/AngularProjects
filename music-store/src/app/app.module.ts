@@ -8,19 +8,23 @@ import { RegisterComponent } from './register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { MusicComponent } from './music/music.component';
+import { SafeurlPipe } from './safeurl.pipe';
+import { ModalModule } from 'ngb-modal';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    MusicComponent
+    MusicComponent,
+    SafeurlPipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ModalModule
   ],
   providers: [],
   bootstrap: [AppComponent]
