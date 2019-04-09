@@ -93,7 +93,7 @@ export class MusicComponent implements OnInit {
   addAlbum(form: FormGroup) {
     console.log('id::::::::::' + this.musicAlbumId);
 
-    if (this.musicAlbumId === null || this.musicAlbumId === 'undefined') {
+    if (typeof this.musicAlbumId === null || typeof this.musicAlbumId === "undefined") {
       console.log('calling musicAlbum api');
       this.musicPlayerArray.push({ id: 1, description: form.value.description, musicName: this.albumForm.value.musicName, singerName: this.albumForm.value.singerName });
 
