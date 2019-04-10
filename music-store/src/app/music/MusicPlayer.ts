@@ -3,6 +3,6 @@ export interface MusicPlayer {
     description: string;
     musicName: string;
     singerName: string;
-    
+    // musicFileName:string;
 
 }

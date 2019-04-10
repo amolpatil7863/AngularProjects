@@ -10,13 +10,22 @@ import {HttpClientModule} from '@angular/common/http';
 import { MusicComponent } from './music/music.component';
 import { SafeurlPipe } from './safeurl.pipe';
 import { ModalModule } from 'ngb-modal';
+import { RouterModule } from '@angular/router';
+import { APP_ROUTES } from './app.routes';
+import { AdminComponent } from './admin/admin.component';
+import { HomecomponentComponent } from './homecomponent/homecomponent.component';
+import { LayoutComponent } from './layout/layout.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
     MusicComponent,
-    SafeurlPipe
+    SafeurlPipe,
+    AdminComponent,
+    HomecomponentComponent,
+    LayoutComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +33,9 @@ import { ModalModule } from 'ngb-modal';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ModalModule
+    ModalModule,
+  
+    RouterModule.forRoot(APP_ROUTES)
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -4,7 +4,7 @@ import { ModalManager } from 'ngb-modal';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MusicAlbum } from './MusicAlbum';
 import { MusicPlayer } from './MusicPlayer';
-
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-music',
@@ -21,12 +21,12 @@ export class MusicComponent implements OnInit {
   musicPlayerArray: Array<MusicPlayer> = [];
   musicPlayer: MusicPlayer;
   musicAlbumId: string;
+  playImg: string = "../assets/images/play.jpeg";
 
-
-  constructor(private musicService: MusicService, private modalService: ModalManager) { }
+  constructor(private musicService: MusicService, private modalService: ModalManager, private sanitizer: DomSanitizer) { }
   resultArray: any;
   musicAlbum: [];
-  baseUrl: string = 'data:image/jpegz;base64,';
+  baseUrl: string = 'data:image/jpeg;base64,';
   base64textString: any;
   is_edit: boolean = false;
 
@@ -38,7 +38,6 @@ export class MusicComponent implements OnInit {
 
   ngOnInit() {
     this.getMusics();
-    this.playAudio();
     this.albumForm = new FormGroup({
       albumName: new FormControl(''),
       albumImage: new FormControl(''),
@@ -58,7 +57,10 @@ export class MusicComponent implements OnInit {
 
           this.resultArray.forEach(element => {
             element.albumImage = this.baseUrl.concat(element.albumImage);
-            console.log(element.music)
+
+            element.albumImage = this.sanitizer.bypassSecurityTrustStyle(element.albumImage);
+
+
           });
 
         },
@@ -95,9 +97,9 @@ export class MusicComponent implements OnInit {
 
     if (typeof this.musicAlbumId === null || typeof this.musicAlbumId === "undefined") {
       console.log('calling musicAlbum api');
-      this.musicPlayerArray.push({ id: 1, description: form.value.description, musicName: this.albumForm.value.musicName, singerName: this.albumForm.value.singerName });
+      this.musicPlayerArray.push({ id: 1, description: form.value.description, musicName: this.albumForm.value.musicName, singerName: this.albumForm.value.singerName});
 
-      // console.log('musicPlayer data :::' + JSON.stringify(this.musicPlayer));
+
 
       this.musicAlbumData = {
         id: 1,
@@ -106,7 +108,7 @@ export class MusicComponent implements OnInit {
         music: this.musicPlayerArray,
       };
 
-      // console.log('data' + JSON.stringify(this.musicAlbumData));
+
       this.musicService.addMusicAlbum(this.musicAlbumData)
         .subscribe(
           result => {
@@ -155,6 +157,9 @@ export class MusicComponent implements OnInit {
     }
   }
 
+
+  
+
   handleFile(event) {
     var binaryString = event.target.result;
     this.base64textString = btoa(binaryString);
@@ -176,12 +181,18 @@ export class MusicComponent implements OnInit {
 
   }
 
-  playAudio() {
+  playMusic(musicFile:string) {
+    
+    
+    
+    console.log("Music File:::"+musicFile);
+
+    // let audio = new Audio("data:audio/mp3;base64," + base64strin);
     let audio = new Audio();
-    audio.src = "../../../assets/audio/alarm.wav";
-   
+    audio.src = musicFile;
+
     audio.load();
     audio.play();
   }
-  
+
 }
