@@ -20,14 +20,21 @@ export class MusicService {
     return this.httpCient.get(this.apiUrl, { headers: this.getTokenFromStorage() });
   }
 
-  addMusicAlbum(data: MusicAlbum) {
+  addMusicAlbum(data: MusicAlbum,file:File) {
     console.log("saving object:::" + JSON.stringify(data));
+
+    
+
     return this.httpCient.post(this.apiUrl, data, { headers: this.getTokenFromStorage() });
   }
 
 
-  addMusicPlayer(data: MusicPlayer, id: string) {
-    return this.httpCient.post(this.apiUrl + '/musicplayer/' + id, data, { headers: this.getTokenFromStorage() });
+  addMusicPlayer(data: MusicPlayer, id: string,file:File) {
+// let jsonString=JSON.parse(data);
+    const formdata: FormData = new FormData();
+    formdata.append('file',file);
+    // formdata.append('',JSON.parse(data));
+    return this.httpCient.post(this.apiUrl + '/musicplayer/' + id, formdata, { headers: this.getTokenFromStorage() });
 
   }
 

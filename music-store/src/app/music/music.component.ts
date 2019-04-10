@@ -29,7 +29,8 @@ export class MusicComponent implements OnInit {
   baseUrl: string = 'data:image/jpeg;base64,';
   base64textString: any;
   is_edit: boolean = false;
-
+  selectedFiles: FileList;
+  currentFileUpload: File;
 
   isDisabled(): boolean {
     return this.is_edit;
@@ -59,8 +60,6 @@ export class MusicComponent implements OnInit {
             element.albumImage = this.baseUrl.concat(element.albumImage);
 
             element.albumImage = this.sanitizer.bypassSecurityTrustStyle(element.albumImage);
-
-
           });
 
         },
@@ -97,19 +96,23 @@ export class MusicComponent implements OnInit {
 
     if (typeof this.musicAlbumId === null || typeof this.musicAlbumId === "undefined") {
       console.log('calling musicAlbum api');
-      this.musicPlayerArray.push({ id: 1, description: form.value.description, musicName: this.albumForm.value.musicName, singerName: this.albumForm.value.singerName});
 
+      this.currentFileUpload = this.selectedFiles.item(0);
+      console.log('files::::'+JSON.stringify(this.currentFileUpload));
 
+      this.musicPlayerArray.push({ id: 1, description: form.value.description, musicName: this.albumForm.value.musicName, singerName: this.albumForm.value.singerName });
+
+      this.currentFileUpload = this.selectedFiles.item(0);
 
       this.musicAlbumData = {
-        id: 1,
-        albumImage: this.base64textString,
-        albumName: form.value.albumName,
-        music: this.musicPlayerArray,
+        "id": 1,
+        "albumImage": this.base64textString,
+        "albumName": form.value.albumName,
+        "music": this.musicPlayerArray,
       };
 
 
-      this.musicService.addMusicAlbum(this.musicAlbumData)
+      this.musicService.addMusicAlbum(this.musicAlbumData,this.currentFileUpload)
         .subscribe(
           result => {
             console.log("Music Album Added Successfully" + JSON.stringify(result));
@@ -124,9 +127,12 @@ export class MusicComponent implements OnInit {
       console.log('calling musicplayer api');
       this.musicPlayer = { id: 1, description: form.value.description, musicName: this.albumForm.value.musicName, singerName: this.albumForm.value.singerName };
 
+      
+      this.currentFileUpload = this.selectedFiles.item(0);
+      console.log('files::::'+JSON.stringify(this.currentFileUpload));
       console.log("musicPlayer:::" + JSON.stringify(this.musicPlayer));
 
-      this.musicService.addMusicPlayer(this.musicPlayer, this.musicAlbumId)
+      this.musicService.addMusicPlayer(this.musicPlayer, this.musicAlbumId,this.currentFileUpload)
         .subscribe(
           result => {
             console.log("Music Album Added Successfully" + JSON.stringify(result));
@@ -158,7 +164,7 @@ export class MusicComponent implements OnInit {
   }
 
 
-  
+
 
   handleFile(event) {
     var binaryString = event.target.result;
@@ -175,17 +181,10 @@ export class MusicComponent implements OnInit {
     else {
       this.is_edit = true;
     }
-
-    // console.log(this.musicAlbumId);
-
-
   }
 
-  playMusic(musicFile:string) {
-    
-    
-    
-    console.log("Music File:::"+musicFile);
+  playMusic(musicFile: string) {
+    console.log("Music File:::" + musicFile);
 
     // let audio = new Audio("data:audio/mp3;base64," + base64strin);
     let audio = new Audio();
@@ -193,6 +192,12 @@ export class MusicComponent implements OnInit {
 
     audio.load();
     audio.play();
+  }
+
+
+  selectFile(event) {
+    this.selectedFiles = event.target.files;
+    console.log("selected file:::::::::"+event.target.files);
   }
 
 }
