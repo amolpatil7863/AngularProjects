@@ -13,8 +13,8 @@ export class LoginService {
   }
 
   login(username: string, password: string) {
-    console.log('calling login service' + username + " " + password);
-    return this.httpClient.post(this.apiUrl, { username: username, password: password },{ observe: 'response' })
+    // console.log('calling login service' + username + " " + password);
+    return this.httpClient.post(this.apiUrl, { username: username, password: password }, { observe: 'response' });
 
   }
 }

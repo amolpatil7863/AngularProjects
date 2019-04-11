@@ -11,10 +11,12 @@ import { MusicComponent } from './music/music.component';
 import { SafeurlPipe } from './safeurl.pipe';
 import { ModalModule } from 'ngb-modal';
 import { RouterModule } from '@angular/router';
-import { APP_ROUTES } from './app.routes';
+// import { APP_ROUTES } from './app.routes';
 import { AdminComponent } from './admin/admin.component';
 import { HomecomponentComponent } from './homecomponent/homecomponent.component';
 import { LayoutComponent } from './layout/layout.component';
+import { CookieService } from 'ngx-cookie-service';
+
 
 @NgModule({
   declarations: [
@@ -35,9 +37,9 @@ import { LayoutComponent } from './layout/layout.component';
     HttpClientModule,
     ModalModule,
   
-    RouterModule.forRoot(APP_ROUTES)
+    // RouterModule.forRoot(APP_ROUTES)
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -5,6 +5,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { MusicAlbum } from './MusicAlbum';
 import { MusicPlayer } from './MusicPlayer';
 import { DomSanitizer } from '@angular/platform-browser';
+import { CookieService } from 'ngx-cookie-service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-music',
@@ -23,14 +25,17 @@ export class MusicComponent implements OnInit {
   musicAlbumId: string;
   playImg: string = "../assets/images/play.jpeg";
 
-  constructor(private musicService: MusicService, private modalService: ModalManager, private sanitizer: DomSanitizer) { }
+  constructor(private musicService: MusicService, private modalService: ModalManager, private cookie: CookieService,
+    private sanitizer: DomSanitizer, private route: ActivatedRoute,
+    private router: Router) { }
   resultArray: any;
   musicAlbum: [];
   baseUrl: string = 'data:image/jpeg;base64,';
   base64textString: any;
   is_edit: boolean = false;
-  selectedFiles: FileList;
+  selectedFiles: File;
   currentFileUpload: File;
+  userName: string;
 
   isDisabled(): boolean {
     return this.is_edit;
@@ -38,14 +43,10 @@ export class MusicComponent implements OnInit {
 
 
   ngOnInit() {
+    this.userName = this.cookie.get('username');
+    console.log('cookie name' + this.userName);
     this.getMusics();
-    this.albumForm = new FormGroup({
-      albumName: new FormControl(''),
-      albumImage: new FormControl(''),
-      musicName: new FormControl(''),
-      singerName: new FormControl(''),
-      description: new FormControl('')
-    });
+
   }
 
   getMusics() {
@@ -72,116 +73,7 @@ export class MusicComponent implements OnInit {
 
 
 
-  openPopup() {
-    this.modalRef = this.modalService.open(this.myModal,
-      {
-        size: "md",
-        modalClass: 'mymodal',
-        hideCloseButton: false,
-        centered: false,
-        backdrop: true,
-        animation: true,
-        keyboard: false,
-        closeOnOutsideClick: true,
-        backdropClass: "modal-backdrop"
-      })
-  }
-  closeModal() {
-    this.modalService.close(this.modalRef);
 
-  }
-
-  addAlbum(form: FormGroup) {
-    console.log('id::::::::::' + this.musicAlbumId);
-
-    if (typeof this.musicAlbumId === null || typeof this.musicAlbumId === "undefined") {
-      console.log('calling musicAlbum api');
-
-      this.currentFileUpload = this.selectedFiles.item(0);
-      console.log('files::::'+JSON.stringify(this.currentFileUpload));
-
-      this.musicPlayerArray.push({ id: 1, description: form.value.description, musicName: this.albumForm.value.musicName, singerName: this.albumForm.value.singerName });
-
-      this.currentFileUpload = this.selectedFiles.item(0);
-
-      this.musicAlbumData = {
-        "id": 1,
-        "albumImage": this.base64textString,
-        "albumName": form.value.albumName,
-        "music": this.musicPlayerArray,
-      };
-
-
-      this.musicService.addMusicAlbum(this.musicAlbumData,this.currentFileUpload)
-        .subscribe(
-          result => {
-            console.log("Music Album Added Successfully" + JSON.stringify(result));
-
-          },
-          error => {
-            console.log(JSON.stringify(error))
-
-          });
-      this.modalService.close(this.modalRef);
-    } else {
-      console.log('calling musicplayer api');
-      this.musicPlayer = { id: 1, description: form.value.description, musicName: this.albumForm.value.musicName, singerName: this.albumForm.value.singerName };
-
-      
-      this.currentFileUpload = this.selectedFiles.item(0);
-      console.log('files::::'+JSON.stringify(this.currentFileUpload));
-      console.log("musicPlayer:::" + JSON.stringify(this.musicPlayer));
-
-      this.musicService.addMusicPlayer(this.musicPlayer, this.musicAlbumId,this.currentFileUpload)
-        .subscribe(
-          result => {
-            console.log("Music Album Added Successfully" + JSON.stringify(result));
-
-          },
-          error => {
-            console.log(JSON.stringify(error))
-
-          });
-      this.modalService.close(this.modalRef);
-    }
-
-
-
-  }
-
-
-  onUploadChange(event) {
-    var files = event.target.files;
-    var file = files[0];
-
-    if (files && file) {
-      var reader = new FileReader();
-
-      reader.onload = this.handleFile.bind(this);
-
-      reader.readAsBinaryString(file);
-    }
-  }
-
-
-
-
-  handleFile(event) {
-    var binaryString = event.target.result;
-    this.base64textString = btoa(binaryString);
-    // console.log("Encoded String::::" + btoa(binaryString));
-    return this.base64textString;
-  }
-
-  addMusicPlayer(event: any) {
-    this.musicAlbumId = event.target.value;
-    if (this.musicAlbumId === null || this.musicAlbumId === 'undefined' || this.musicAlbumId === '0') {
-      this.is_edit = false;
-    }
-    else {
-      this.is_edit = true;
-    }
-  }
 
   playMusic(musicFile: string) {
     console.log("Music File:::" + musicFile);
@@ -195,9 +87,11 @@ export class MusicComponent implements OnInit {
   }
 
 
-  selectFile(event) {
-    this.selectedFiles = event.target.files;
-    console.log("selected file:::::::::"+event.target.files);
+  logout() {
+
+    console.log('destroying user');
+    localStorage.removeItem('currentUser');
+    this.router.navigate(['login']);
   }
 
 }

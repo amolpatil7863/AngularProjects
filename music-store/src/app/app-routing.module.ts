@@ -4,6 +4,9 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { FormsModule }   from '@angular/forms';
 import { MusicComponent } from './music/music.component';
+import { AdminComponent } from './admin/admin.component';
+import { AuthenticationService } from './authentication.service';
+import { AdminService } from './admin.service';
 
 const routes: Routes = [
   {
@@ -16,7 +19,17 @@ const routes: Routes = [
   },
   {
     path:'music',
-    component:MusicComponent
+    component:MusicComponent,
+    canActivate: [AuthenticationService]
+  },
+  // {
+  //   path:'',
+  //   component:LoginComponent
+  // },
+  {
+    path:'music/admin',
+    component:AdminComponent,
+    canActivate: [AuthenticationService,AdminService]
   }
 ];
 

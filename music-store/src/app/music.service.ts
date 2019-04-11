@@ -20,21 +20,29 @@ export class MusicService {
     return this.httpCient.get(this.apiUrl, { headers: this.getTokenFromStorage() });
   }
 
-  addMusicAlbum(data: MusicAlbum,file:File) {
+  addMusicAlbum(data: MusicAlbum, file: File) {
     console.log("saving object:::" + JSON.stringify(data));
 
-    
+
 
     return this.httpCient.post(this.apiUrl, data, { headers: this.getTokenFromStorage() });
   }
 
 
-  addMusicPlayer(data: MusicPlayer, id: string,file:File) {
-// let jsonString=JSON.parse(data);
+  addMusicPlayer(data: MusicPlayer, id: string, file: File) {
+
+    let token = localStorage.getItem("currentUser");
+    token = 'Bearer' + ' ' + token;
+
+    let header = new HttpHeaders({
+      'Content-Type': 'multipart/form-data', 'Authorization':
+        token
+    });
+console.log('file to upload'+JSON.stringify(file));
     const formdata: FormData = new FormData();
-    formdata.append('file',file);
-    // formdata.append('',JSON.parse(data));
-    return this.httpCient.post(this.apiUrl + '/musicplayer/' + id, formdata, { headers: this.getTokenFromStorage() });
+    formdata.append('file', file);
+    formdata.append('musicPlayer',JSON.stringify(data));
+    return this.httpCient.post(this.apiUrl + '/musicplayer/' + id, formdata, { headers: header });
 
   }
 
@@ -48,6 +56,11 @@ export class MusicService {
         token
     });
     return header;
+  }
+
+
+  deleteMusicPlayer(id: string) {
+    return this.httpCient.delete(this.apiUrl + '/musicPlayer/' + id, { headers: this.getTokenFromStorage() });
   }
 }
 
