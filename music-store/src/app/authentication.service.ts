@@ -16,9 +16,7 @@ export class AuthenticationService implements CanActivate {
     console.log('calling Auth gaurd servce');
     const currentUser = this.cookie.get('username');
     const authToken = localStorage.getItem('currentUser');
-
     
-  
     if (authToken && currentUser) {
       console.log("Authorized User!!!!!!!!!");
       return true;
@@ -29,16 +27,4 @@ export class AuthenticationService implements CanActivate {
     }
 
   }
-
-
-
-
-  // getDecodedAccessToken(token: string): any {
-  //   try {
-  //     return jwt_decode(token);
-  //   }
-  //   catch (Error) {
-  //     return null;
-  //   }
-  // }
 }

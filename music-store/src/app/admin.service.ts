@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import * as jwt_decode from "jwt-decode";
+import { Location } from '@angular/common';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
-
-  constructor(private router: Router, private cookie: CookieService) {
+  
+  constructor(private router: Router, private cookie: CookieService,private _location: Location) {
 
   }
   role:boolean;
@@ -18,14 +20,15 @@ export class AdminService {
 
     let decodedJwtToken = this.getDecodedAccessToken(authToken);
     this.role = decodedJwtToken.scope;
-    console.log("decode Token:::" + decodedJwtToken.scope);
+  
   
     if (this.role===true) {
       console.log("Admin user"+this.role);
       return true;
     } else {
-      console.log('Normal user'+this.role+"route url::"+this.router.url);
-      this.router.navigate(['login']);
+      console.log('Normal user'+this.role)
+      this.router.navigate(['error']);
+
       return false;
     }
 

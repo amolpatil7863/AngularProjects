@@ -7,6 +7,8 @@ import { MusicComponent } from './music/music.component';
 import { AdminComponent } from './admin/admin.component';
 import { AuthenticationService } from './authentication.service';
 import { AdminService } from './admin.service';
+import { ErrorComponent } from './error/error.component';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 const routes: Routes = [
   {
@@ -30,7 +32,13 @@ const routes: Routes = [
     path:'music/admin',
     component:AdminComponent,
     canActivate: [AuthenticationService,AdminService]
-  }
+  },
+  {
+    path:'error',
+    component:ErrorComponent
+  },
+  {path: '404', component: NotfoundComponent},
+  {path: '**', redirectTo: '/404'}
 ];
 
 @NgModule({

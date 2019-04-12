@@ -14,32 +14,28 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./music.component.scss']
 })
 export class MusicComponent implements OnInit {
-  @ViewChild('myModal') myModal;
-  private modalRef;
 
+  currentTime: Date = new Date();
   albumForm: FormGroup;
-
-  musicAlbumData: MusicAlbum;
-  musicPlayerArray: Array<MusicPlayer> = [];
-  musicPlayer: MusicPlayer;
-  musicAlbumId: string;
   playImg: string = "../assets/images/play.jpeg";
+  paused: boolean = true;
+  audio = new Audio();
+
+
+  private __audio: any = null;
+  private __playing = false;
+
+  private __trackIndex = 0;
 
   constructor(private musicService: MusicService, private modalService: ModalManager, private cookie: CookieService,
     private sanitizer: DomSanitizer, private route: ActivatedRoute,
     private router: Router) { }
   resultArray: any;
   musicAlbum: [];
-  baseUrl: string = 'data:image/jpeg;base64,';
-  base64textString: any;
-  is_edit: boolean = false;
-  selectedFiles: File;
-  currentFileUpload: File;
+
   userName: string;
 
-  isDisabled(): boolean {
-    return this.is_edit;
-  }
+
 
 
   ngOnInit() {
@@ -55,14 +51,6 @@ export class MusicComponent implements OnInit {
         result => {
           this.resultArray = result;
           this.musicAlbum = result;
-
-
-          this.resultArray.forEach(element => {
-            element.albumImage = this.baseUrl.concat(element.albumImage);
-
-            element.albumImage = this.sanitizer.bypassSecurityTrustStyle(element.albumImage);
-          });
-
         },
         error => {
           console.log(JSON.stringify(error));
@@ -71,24 +59,43 @@ export class MusicComponent implements OnInit {
 
   }
 
-
-
-
-
   playMusic(musicFile: string) {
-    console.log("Music File:::" + musicFile);
 
-    // let audio = new Audio("data:audio/mp3;base64," + base64strin);
-    let audio = new Audio();
-    audio.src = musicFile;
-
-    audio.load();
-    audio.play();
+    this.audio.src = musicFile;
+ 
+    console.log('status:::::' + this.audio.paused)
+    if (this.audio.paused) {
+      console.log('not playing will play');
+      this.audio.load();
+      this.audio.play();
+    } else {
+      console.log('playinh')
+      this.audio.pause();
+      
+    }
   }
+
+  // playTrack(musicFile: string) {
+  //   console.log('playing' + musicFile);
+  //   this.__audio = new Audio();
+  //   this.__audio.src = musicFile;
+  //   this.__audio.play();
+  //   this.__playing = true;
+  // }
+  // pauseTrack(musicFile: string) {
+  //   this.__audio = new Audio();
+  //   this.__audio.src = musicFile;
+  //   this.__audio.pause();
+  //   this.__playing = false;
+  // }
+  // __stopTrack(musicFile: string) {
+  //   this.__audio.pause();
+  //   this.__playing = false;
+  //   this.__audio.currentTime = 0;
+  // }
 
 
   logout() {
-
     console.log('destroying user');
     localStorage.removeItem('currentUser');
     this.router.navigate(['login']);

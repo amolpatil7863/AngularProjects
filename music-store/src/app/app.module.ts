@@ -16,6 +16,8 @@ import { AdminComponent } from './admin/admin.component';
 import { HomecomponentComponent } from './homecomponent/homecomponent.component';
 import { LayoutComponent } from './layout/layout.component';
 import { CookieService } from 'ngx-cookie-service';
+import { ErrorComponent } from './error/error.component';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 
 @NgModule({
@@ -27,7 +29,9 @@ import { CookieService } from 'ngx-cookie-service';
     SafeurlPipe,
     AdminComponent,
     HomecomponentComponent,
-    LayoutComponent
+    LayoutComponent,
+    ErrorComponent,
+    NotfoundComponent
   ],
   imports: [
     BrowserModule,

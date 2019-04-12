@@ -205,6 +205,7 @@ export class AdminComponent implements OnInit {
   selectMusicFile(files: FileList) {
     let file = files.item(0);
     var fileReader = new FileReader();
+  
 
 
     fileReader.onload = this._handleReaderLoaded.bind(this);
