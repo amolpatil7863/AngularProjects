@@ -20,7 +20,7 @@ export class MusicService {
     return this.httpCient.get(this.apiUrl, { headers: this.getTokenFromStorage() });
   }
 
-  addMusicAlbum(data: MusicAlbum, file: File) {
+  addMusicAlbum(data: MusicAlbum) {
     console.log("saving object:::" + JSON.stringify(data));
 
 
@@ -29,20 +29,8 @@ export class MusicService {
   }
 
 
-  addMusicPlayer(data: MusicPlayer, id: string, file: File) {
-
-    let token = localStorage.getItem("currentUser");
-    token = 'Bearer' + ' ' + token;
-
-    let header = new HttpHeaders({
-      'Content-Type': 'multipart/form-data', 'Authorization':
-        token
-    });
-console.log('file to upload'+JSON.stringify(file));
-    const formdata: FormData = new FormData();
-    formdata.append('file', file);
-    formdata.append('musicPlayer',JSON.stringify(data));
-    return this.httpCient.post(this.apiUrl + '/musicplayer/' + id, formdata, { headers: header });
+  addMusicPlayer(data: MusicPlayer, id: string) {
+    return this.httpCient.post(this.apiUrl + '/musicplayer/' + id, data, { headers: this.getTokenFromStorage() });
 
   }
 
@@ -50,7 +38,6 @@ console.log('file to upload'+JSON.stringify(file));
   getTokenFromStorage() {
     let token = localStorage.getItem("currentUser");
     token = 'Bearer' + ' ' + token;
-
     let header = new HttpHeaders({
       'Content-Type': 'application/json', 'Authorization':
         token

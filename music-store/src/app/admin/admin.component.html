@@ -1,136 +1,136 @@
 <div class="container">
-    <div class="row">
-      <div class="col-sm-11"></div>
-      <div class="col-sm-1">
-      
-        <select (change)="logout()">
-          <option value="0">{{userName}}</option>
-          <option value="1">Logout</option>
-        </select>
-
-        
-  
-      </div>
-    </div>
-  
-  
-    <h2 class="text-center musicText">Music List</h2>
-    <div>
-      <h5><a href="javascript:void(0);" (click)="openPopup()">Add Album</a></h5>
-    </div>
-    <div class="table-responsive">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">AlbumName</th>
-            <th scope="col">AlbumImage</th>
-            <th scope="col">Song</th>
-            <th scope="col">singerName</th>
-            <th scope="col">Description</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-  
-        <tbody *ngFor="let album of musicAlbum">
-          <tr *ngFor="let music of album.music;let i = index">
-            <td>{{album.id}} </td>
-            <td>{{album.albumName }} <div>
-                <!-- <h6><a href="javascript:void(0);" (click)="addMusic()">Add Music</a></h6> -->
-              </div>
-            </td>
-            <td> <img src="{{album.albumImage | safeurl}}" alt="Red dot" />
-            </td>
-            <td>
-              {{music.musicName}}
-            </td>
-            <td>
-              {{music.singerName}}
-            </td>
-            <td>
-              {{music.description}}
-            </td>
-            <td>
-              <img class="playImg" src="{{playImg}}" alt="Red dot" (click)="playMusic(music.musicFileName)">
-            </td>
-            <td>
-              <i class="fa fa-trash" aria-hidden="true" (click)="deleteMusic(music.id)"></i>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  
-  <!-- Popup for add new Music Album and Player -->
-  
   <div class="row">
-    <modal #myModal>
-      <modal-header>
-        <h6>Add Album</h6>
-      </modal-header>
-      <modal-content>
-  
-        <div class="container">
-          <div class="col-sm-8">
-  
-            <form [formGroup]="albumForm" (ngSubmit)="addAlbum(albumForm)">
-  
-              <div>
-                <label>Albums: </label>
-                <select (change)="addMusicPlayer($event)">
-                  <option value="0">--All--</option>
-                  <option *ngFor="let album of musicAlbum" value={{album.id}}>
-                    {{album.albumName}}
-                  </option>
-                </select>
-              </div>
-  
-              <div class="form-group">
-                <label for="albumName">Album Name</label>
-                <input type="text" class="form-control" name="albumName" formControlName="albumName"
-                  [readonly]="isDisabled()" />
-              </div>
-  
-              <div class="form-group">
-                <label for="albumImage">Album Image</label>
-                <input type="file" (change)="onUploadChange($event)" accept=".png, .jpg, .jpeg, .pdf" class="form-control"
-                  name="albumImage" formControlName="albumImage" [readonly]="isDisabled()" />
-              </div>
-  
-              <div class="form-group">
-                <label for="musicName">MusicName</label>
-                <input type="text" class="form-control" name="musicName" formControlName="musicName" />
-              </div>
-  
-              <div class="form-group">
-                <label for="username">SingerName</label>
-                <input type="text" class="form-control" name="singerName" formControlName="singerName" />
-              </div>
-  
-              <div class="form-group">
-                <label for="description">Description</label>
-                <input type="text" class="form-control" name="description" formControlName="description" />
-              </div>
-  
-              <div class="form-group">
-                <label for="musicFile">MusicFile</label>
-                <input type="file" class="form-control" name="musicFile" formControlName="musicFile"
-                  (change)="selectFile($event)" accept=".*" />
-              </div>
-  
-              <div class="form-group">
-                <button class="btn btn-primary">AddAlbum</button>
-              </div>
-  
-            </form>
-          </div>
-        </div>
-  
-  
-      </modal-content>
-      <modal-footer>
-        <button class="btn btn-primary" (click)="closeModal()">close</button>
-      </modal-footer>
-    </modal>
+    <div class="col-sm-11"></div>
+    <div class="col-sm-1">
+
+      <select (change)="logout()">
+        <option value="0">{{userName}}</option>
+        <option value="1">Logout</option>
+      </select>
+
+
+
+    </div>
   </div>
+
+
+  <h2 class="text-center musicText">Music List</h2>
+  <div>
+    <h5><a href="javascript:void(0);" (click)="openPopup()">Add Album</a></h5>
+  </div>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">AlbumName</th>
+          <th scope="col">AlbumImage</th>
+          <th scope="col">Song</th>
+          <th scope="col">singerName</th>
+          <th scope="col">Description</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+
+      <tbody *ngFor="let album of musicAlbum">
+        <tr *ngFor="let music of album.music;let i = index">
+          <td>{{album.id}} </td>
+          <td>{{album.albumName }} <div>
+              <!-- <h6><a href="javascript:void(0);" (click)="addMusic()">Add Music</a></h6> -->
+            </div>
+          </td>
+          <td> <img src="{{album.albumImage}}" alt="Red dot" class="album-img" />
+          </td>
+          <td>
+            {{music.musicName}}
+          </td>
+          <td>
+            {{music.singerName}}
+          </td>
+          <td>
+            {{music.description}}
+          </td>
+          <td>
+            <img class="playImg" src="{{playImg}}" alt="Red dot" (click)="playMusic(music.musicFileName)">
+          </td>
+          <td>
+            <i class="fa fa-trash" aria-hidden="true" (click)="deleteMusic(music.id)"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Popup for add new Music Album and Player -->
+
+<div class="row">
+  <modal #myModal>
+    <modal-header>
+      <h6>Add Album</h6>
+    </modal-header>
+    <modal-content>
+
+      <div class="container">
+        <div class="col-sm-8">
+
+          <form [formGroup]="albumForm" (ngSubmit)="addAlbum(albumForm)">
+
+            <div>
+              <label>Albums: </label>
+              <select (change)="addMusicPlayer($event)">
+                <option value="0">--All--</option>
+                <option *ngFor="let album of musicAlbum" value={{album.id}}>
+                  {{album.albumName}}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="albumName">Album Name</label>
+              <input type="text" class="form-control" name="albumName" formControlName="albumName"
+                [readonly]="isDisabled()" />
+            </div>
+
+            <div class="form-group">
+              <label for="albumImage">Album Image</label>
+              <input type="file" (change)="onUploadChange($event)" accept=".png, .jpg, .jpeg, .pdf" class="form-control"
+                name="albumImage" formControlName="albumImage" [readonly]="isDisabled()" />
+            </div>
+
+            <div class="form-group">
+              <label for="musicName">MusicName</label>
+              <input type="text" class="form-control" name="musicName" formControlName="musicName" />
+            </div>
+
+            <div class="form-group">
+              <label for="username">SingerName</label>
+              <input type="text" class="form-control" name="singerName" formControlName="singerName" />
+            </div>
+
+            <div class="form-group">
+              <label for="description">Description</label>
+              <input type="text" class="form-control" name="description" formControlName="description" />
+            </div>
+
+            <div class="form-group">
+              <label for="musicFile">MusicFile</label>
+              <input type="file" class="form-control" name="musicFile" formControlName="musicFile"
+                (change)="selectMusicFile($event.target.files)" accept=".mp3" />
+            </div>
+
+            <div class="form-group">
+              <button class="btn btn-primary">AddAlbum</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+
+    </modal-content>
+    <modal-footer>
+      <button class="btn btn-primary" (click)="closeModal()">close</button>
+    </modal-footer>
+  </modal>
+</div>

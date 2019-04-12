@@ -5,6 +5,7 @@ export interface MusicAlbum {
     albumImage: string;
     albumName: string;
     music: MusicPlayer[];
+    // albumImageName:string;
    
 
 }
