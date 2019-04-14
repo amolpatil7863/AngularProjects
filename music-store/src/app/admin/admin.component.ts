@@ -16,13 +16,17 @@ import { CookieService } from 'ngx-cookie-service';
 export class AdminComponent implements OnInit {
 
   @ViewChild('myModal') myModal;
+  @ViewChild('deleteModel') deleteModel;
   private modalRef;
+
   albumForm: FormGroup;
   musicAlbumData: MusicAlbum;
   musicPlayerArray: Array<MusicPlayer> = [];
   musicPlayer: MusicPlayer;
   musicAlbumId: string;
   playImg: string = "../assets/images/play.jpeg";
+
+  musicIdDelete: number = 0;
 
   constructor(private musicService: MusicService, private modalService: ModalManager, private cookie: CookieService,
     private sanitizer: DomSanitizer, private route: ActivatedRoute,
@@ -75,9 +79,9 @@ export class AdminComponent implements OnInit {
 
     if (typeof this.musicAlbumId === null || typeof this.musicAlbumId === "undefined") {
       console.log('calling musicAlbum api');
-   
 
-      this.musicPlayerArray.push({ id: 1, description: form.value.description, musicName: this.albumForm.value.musicName, singerName: this.albumForm.value.singerName,musicFileName:this.base64MusicTextString });
+
+      this.musicPlayerArray.push({ id: 1, description: form.value.description, musicName: this.albumForm.value.musicName, singerName: this.albumForm.value.singerName, musicFileName: this.base64MusicTextString });
 
 
 
@@ -120,19 +124,40 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  deleteMusic(id: string) {
+  deleteMusic() {
+    if (this.musicIdDelete === null || this.musicIdDelete === 0) {
+      console.log('id is null');
+    } else {
+      console.log('deleting id');
+      this.musicService.deleteMusicPlayer(this.musicIdDelete)
+        .subscribe(
+          result => {
+            console.log('deleted music');
+            this.modalService.close(this.modalRef);
 
-    console.log("musicId:::" + id);
-    this.musicService.deleteMusicPlayer(id)
-      .subscribe(
-        result => {
-          console.log('deleted musci');
+          },
+          error => {
+            console.log(JSON.stringify(error))
 
-        },
-        error => {
-          console.log(JSON.stringify(error))
+          });
+    }
 
-        });
+  }
+  openDeleteModal(id: number) {
+    console.log('id to be deleted:::::' + id);
+    this.musicIdDelete = id;
+    this.modalRef = this.modalService.open(this.deleteModel,
+      {
+        size: "sm",
+        modalClass: 'deleteModel',
+        hideCloseButton: false,
+        centered: true,
+        backdrop: true,
+        animation: true,
+        keyboard: false,
+        closeOnOutsideClick: true,
+        backdropClass: "modal-backdrop"
+      })
   }
 
 
@@ -205,7 +230,7 @@ export class AdminComponent implements OnInit {
   selectMusicFile(files: FileList) {
     let file = files.item(0);
     var fileReader = new FileReader();
-  
+
 
 
     fileReader.onload = this._handleReaderLoaded.bind(this);
@@ -227,5 +252,6 @@ export class AdminComponent implements OnInit {
     this.cookie.delete('username');
     console.log('destroyed user and usercookie');
   }
+
 
 }

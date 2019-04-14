@@ -20,20 +20,16 @@ export class MusicComponent implements OnInit {
   playImg: string = "../assets/images/play.jpeg";
   paused: boolean = true;
   audio = new Audio();
+  resultArray: any;
+  musicAlbum: [];
+  userName: string;
 
-
-  private __audio: any = null;
-  private __playing = false;
-
-  private __trackIndex = 0;
 
   constructor(private musicService: MusicService, private modalService: ModalManager, private cookie: CookieService,
     private sanitizer: DomSanitizer, private route: ActivatedRoute,
     private router: Router) { }
-  resultArray: any;
-  musicAlbum: [];
 
-  userName: string;
+ 
 
 
 
@@ -75,24 +71,6 @@ export class MusicComponent implements OnInit {
     }
   }
 
-  // playTrack(musicFile: string) {
-  //   console.log('playing' + musicFile);
-  //   this.__audio = new Audio();
-  //   this.__audio.src = musicFile;
-  //   this.__audio.play();
-  //   this.__playing = true;
-  // }
-  // pauseTrack(musicFile: string) {
-  //   this.__audio = new Audio();
-  //   this.__audio.src = musicFile;
-  //   this.__audio.pause();
-  //   this.__playing = false;
-  // }
-  // __stopTrack(musicFile: string) {
-  //   this.__audio.pause();
-  //   this.__playing = false;
-  //   this.__audio.currentTime = 0;
-  // }
 
 
   logout() {

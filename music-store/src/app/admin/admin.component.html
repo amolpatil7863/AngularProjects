@@ -36,7 +36,6 @@
         <tr *ngFor="let music of album.music;let i = index">
           <td>{{album.id}} </td>
           <td>{{album.albumName }} <div>
-              <!-- <h6><a href="javascript:void(0);" (click)="addMusic()">Add Music</a></h6> -->
             </div>
           </td>
           <td> <img src="{{album.albumImage}}" alt="Red dot" class="album-img" />
@@ -54,7 +53,8 @@
             <img class="playImg" src="{{playImg}}" alt="Red dot" (click)="playMusic(music.musicFileName)">
           </td>
           <td>
-            <i class="fa fa-trash" aria-hidden="true" (click)="deleteMusic(music.id)"></i>
+            <!-- <i class="fa fa-trash" aria-hidden="true" (click)="deleteMusic(music.id)"></i> -->
+            <i class="fa fa-trash" aria-hidden="true" (click)="openDeleteModal(music.id)"></i>
           </td>
         </tr>
       </tbody>
@@ -131,6 +131,37 @@
     </modal-content>
     <modal-footer>
       <button class="btn btn-primary" (click)="closeModal()">close</button>
+    </modal-footer>
+  </modal>
+</div>
+
+
+<!-- delete functionality popup -->
+<div class="row">
+  <modal #deleteModel>
+    <modal-header>
+      <h6 class="text-center">Delete Music</h6>
+    </modal-header>
+    <modal-content>
+
+      <div class="container">
+        <div class="row">
+          <p> Are you sure want to delete</p>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <button class="btn btn-primary" (click)="deleteMusic()">Delete</button>
+          </div>
+          <div class="col-sm-6">
+            <button class="btn btn-primary" (click)="closeModal()">Cancle</button>
+          </div>
+        </div>
+      </div>
+
+
+    </modal-content>
+    <modal-footer style="padding:0%;">
+
     </modal-footer>
   </modal>
 </div>

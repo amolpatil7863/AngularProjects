@@ -17,15 +17,11 @@ export class MusicService {
 
 
   getMusics(): Observable<any> {
-    return this.httpCient.get(this.apiUrl, { headers: this.getTokenFromStorage() });
+    return this.httpCient.get(this.apiUrl+'/album', { headers: this.getTokenFromStorage() });
   }
 
   addMusicAlbum(data: MusicAlbum) {
-    console.log("saving object:::" + JSON.stringify(data));
-
-
-
-    return this.httpCient.post(this.apiUrl, data, { headers: this.getTokenFromStorage() });
+    return this.httpCient.post(this.apiUrl+'/album', data, { headers: this.getTokenFromStorage() });
   }
 
 
@@ -46,8 +42,8 @@ export class MusicService {
   }
 
 
-  deleteMusicPlayer(id: string) {
-    return this.httpCient.delete(this.apiUrl + '/musicPlayer/' + id, { headers: this.getTokenFromStorage() });
+  deleteMusicPlayer(id: number) {
+    return this.httpCient.delete(this.apiUrl + '/musicplayer/' + id, { headers: this.getTokenFromStorage() });
   }
 }
 
