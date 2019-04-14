@@ -133,6 +133,7 @@ export class AdminComponent implements OnInit {
         .subscribe(
           result => {
             console.log('deleted music');
+            this.getMusics();
             this.modalService.close(this.modalRef);
 
           },
