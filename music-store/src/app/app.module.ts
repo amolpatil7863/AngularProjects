@@ -18,6 +18,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { CookieService } from 'ngx-cookie-service';
 import { ErrorComponent } from './error/error.component';
 import { NotfoundComponent } from './notfound/notfound.component';
+import { MusicplayComponent } from './musicplay/musicplay.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { NotfoundComponent } from './notfound/notfound.component';
     HomecomponentComponent,
     LayoutComponent,
     ErrorComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    MusicplayComponent
   ],
   imports: [
     BrowserModule,

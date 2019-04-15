@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="col-md-6 col-md-offset-3">
+  <div class="col-md-6 col-md-offset-3 center_div">
     <h2>Register</h2>
 
     <div class="alert alert-danger" role="alert" *ngIf="registerFailure">
@@ -13,10 +13,10 @@
           <label for="firstName" class="label-control">First Name</label>
           <input type="text" class="form-control" name="firstName" formControlName="firstName" required />
         </div>
-        <!-- <div *ngIf="registerationForm.controls.firstName.touched && !registerationForm.controls.firstName.valid"
+        <div *ngIf="registerationForm.controls.firstName.touched && !registerationForm.controls.firstName.valid"
           class="validation-message col-sm-8">
           firstName is required
-        </div> -->
+        </div>
       </div>
 
       <div class="row">
@@ -24,10 +24,10 @@
           <label for="lastName" class="label-control">Last Name</label>
           <input type="text" class="form-control" name="lastName" formControlName="lastName" required />
         </div>
-        <!-- <div *ngIf="registerationForm.controls.lastName.touched && !registerationForm.controls.lastName.valid"
+        <div *ngIf="registerationForm.controls.lastName.touched && !registerationForm.controls.lastName.valid"
           class="validation-message col-sm-8">
           LastName is required
-        </div> -->
+        </div>
       </div>
 
       <div class="row">
@@ -35,10 +35,10 @@
           <label for="email" class="label-control">Email</label>
           <input type="email" class="form-control" name="email" formControlName="email" required />
         </div>
-        <!-- <div *ngIf="registerationForm.controls.email.touched && !registerationForm.controls.email.valid"
+        <div *ngIf="registerationForm.controls.email.touched && !registerationForm.controls.email.valid"
           class="validation-message col-sm-8">
           Email is required
-        </div> -->
+        </div>
       </div>
 
       <div class="row">
@@ -46,10 +46,10 @@
           <label for="username" class="label-control">Username</label>
           <input type="text" class="form-control" name="username" formControlName="username" required />
         </div>
-        <!-- <div *ngIf="registerationForm.controls.username.touched && !registerationForm.controls.username.valid"
+        <div *ngIf="registerationForm.controls.username.touched && !registerationForm.controls.username.valid"
           class="validation-message col-sm-8">
           UserName is required
-        </div> -->
+        </div>
       </div>
 
       <div class="row">
@@ -57,29 +57,29 @@
           <label for="password" class="label-control">Password</label>
           <input type="password" class="form-control" name="password" formControlName="password" required />
         </div>
-        <!-- <div *ngIf="registerationForm.controls.password.touched && !registerationForm.controls.password.valid"
+        <div *ngIf="registerationForm.controls.password.touched && !registerationForm.controls.password.valid"
           class="validation-message col-sm-8">
           Password is required
-        </div> -->
+        </div>
       </div>
 
       <div class="row">
         <div class="col-sm-8">
           <label for="password" class="label-control">Confirm Password</label>
-          <input type="password" class="form-control" name="confPassword" formControlName="password" required />
+          <input type="password" class="form-control" name="confPassword" formControlName="confPassword" required />
         </div>
-        <!-- <div *ngIf="registerationForm.controls.userName.touched && !registerationForm.controls.userName.valid"
-          class="validation-message col-sm-8">
-          UserName is required
-        </div> -->
+        <div *ngIf="passwordAndConfPassword" class="validation-message col-sm-8">
+          password and confirm password are not same
+        </div>
       </div>
 
       <div class="row margin-top">
         <div class="col-sm-8">
-          <button class="btn btn-primary">Register</button>
+          <button class="btn btn-primary" (click)="validateRegisterForm()">Register</button>
         </div>
         <div class="col-sm-8">
-          <a [routerLink]="['/login']" class="btn btn-link">Login Here If Already Have an Account</a>
+          <a [routerLink]="['/login']" class="btn btn-link" style="color: blue;">Login Here If Already Have an
+            Account</a>
         </div>
 
       </div>

@@ -18,19 +18,18 @@ export class AdminComponent implements OnInit {
   @ViewChild('myModal') myModal;
   @ViewChild('deleteModel') deleteModel;
   private modalRef;
-
   albumForm: FormGroup;
   musicAlbumData: MusicAlbum;
   musicPlayerArray: Array<MusicPlayer> = [];
   musicPlayer: MusicPlayer;
   musicAlbumId: string;
   playImg: string = "../assets/images/play.jpeg";
-
   musicIdDelete: number = 0;
 
   constructor(private musicService: MusicService, private modalService: ModalManager, private cookie: CookieService,
     private sanitizer: DomSanitizer, private route: ActivatedRoute,
     private router: Router) { }
+    
   resultArray: any;
   musicAlbum: [];
   baseUrl: string = 'data:image/jpeg;base64,';
@@ -79,11 +78,7 @@ export class AdminComponent implements OnInit {
 
     if (typeof this.musicAlbumId === null || typeof this.musicAlbumId === "undefined") {
       console.log('calling musicAlbum api');
-
-
       this.musicPlayerArray.push({ id: 1, description: form.value.description, musicName: this.albumForm.value.musicName, singerName: this.albumForm.value.singerName, musicFileName: this.base64MusicTextString });
-
-
 
       this.musicAlbumData = {
         "id": 1,
@@ -97,6 +92,7 @@ export class AdminComponent implements OnInit {
         .subscribe(
           result => {
             console.log("Music Album Added Successfully");
+            this.getMusics();
 
           },
           error => {
@@ -114,7 +110,7 @@ export class AdminComponent implements OnInit {
         .subscribe(
           result => {
             console.log("Music Album Added Successfully" + JSON.stringify(result));
-
+            this.getMusics();
           },
           error => {
             console.log(JSON.stringify(error))
@@ -219,20 +215,17 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  playMusic(musicFile: string) {
-    let audio = new Audio();
-    audio.src = musicFile;
+  playMusic(albumName: string, singerName: string, albumImage: string, musicFileName: string, musicName: string) {
 
-    audio.load();
-    audio.play();
+    // console.log('music data:::'+JSON.stringify(this.musicAlbum));
+    // console.log('image file:::' + musicName);
+    this.router.navigate(['/music/song-info'], { queryParams: { albumName: albumName, singerName: singerName, image: albumImage, musicFileName: musicFileName, musicName: musicName } });
   }
 
 
   selectMusicFile(files: FileList) {
     let file = files.item(0);
     var fileReader = new FileReader();
-
-
 
     fileReader.onload = this._handleReaderLoaded.bind(this);
 
@@ -254,5 +247,13 @@ export class AdminComponent implements OnInit {
     console.log('destroyed user and usercookie');
   }
 
+
+  validateAlbumForm() {
+    if (this.albumForm.invalid) {
+      this.openPopup();
+      return false;
+    }
+    return true;
+  }
 
 }

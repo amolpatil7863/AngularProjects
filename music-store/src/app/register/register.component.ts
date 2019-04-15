@@ -14,7 +14,8 @@ export class RegisterComponent implements OnInit {
   constructor(private registerService: RegisterService, private router: Router) { }
   registerationForm: FormGroup;
   userData: Users;
-  registerFailure:boolean=false;
+  registerFailure: boolean = false;
+  passwordAndConfPassword:boolean=false;
 
 
   ngOnInit() {
@@ -23,11 +24,19 @@ export class RegisterComponent implements OnInit {
       firstName: new FormControl(''),
       lastName: new FormControl(''),
       password: new FormControl(''),
-      email: new FormControl('')
+      email: new FormControl(''),
+      confPassword: new FormControl('')
     });
   }
 
   register(form: FormGroup) {
+
+    console.log('current password:::' + form.value.password + 'confirm password:::' + form.value.confPassword);
+
+    if (form.value.password !== form.value.confPassword) {
+      this.passwordAndConfPassword=true;
+      return false;
+    }
 
     this.userData = form.value;
     console.log('data' + JSON.stringify(this.userData));
@@ -39,11 +48,24 @@ export class RegisterComponent implements OnInit {
 
         },
         error => {
-          this.registerFailure=true;
+          this.registerFailure = true;
           console.log(JSON.stringify(error))
           this.router.navigate(['rgister']);
         });
 
+  }
+
+  validateRegisterForm() {
+    if (this.registerationForm.invalid) {
+      this.registerationForm.get('firstName').markAsTouched();
+      this.registerationForm.get('lastName').markAsTouched();
+      this.registerationForm.get('email').markAsTouched();
+      this.registerationForm.get('username').markAsTouched();
+      this.registerationForm.get('password').markAsTouched();
+      // if(this.regi)
+      return false
+    }
+    return true;
   }
 
 }

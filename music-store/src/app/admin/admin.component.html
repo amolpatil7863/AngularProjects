@@ -7,22 +7,19 @@
         <option value="0">{{userName}}</option>
         <option value="1">Logout</option>
       </select>
-
-
-
     </div>
   </div>
 
 
   <h2 class="text-center musicText">Music List</h2>
   <div>
-    <h5><a href="javascript:void(0);" (click)="openPopup()">Add Album</a></h5>
+    <h5><a href="javascript:void(0);" (click)="openPopup()" class="add-album">Add Album</a></h5>
   </div>
   <div class="table-responsive">
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">ID</th>
+          <!-- <th scope="col">ID</th> -->
           <th scope="col">AlbumName</th>
           <th scope="col">AlbumImage</th>
           <th scope="col">Song</th>
@@ -32,15 +29,15 @@
         </tr>
       </thead>
 
-      <tbody *ngFor="let album of musicAlbum">
-        <tr *ngFor="let music of album.music;let i = index">
-          <td>{{album.id}} </td>
+      <tbody *ngFor="let album of musicAlbum;let i = index">
+        <tr *ngFor="let music of album.music">
+          
           <td>{{album.albumName }} <div>
             </div>
           </td>
           <td> <img src="{{album.albumImage}}" alt="Red dot" class="album-img" />
           </td>
-          <td>
+          <td (click)="playMusic(album.albumName,music.singerName,album.albumImage,music.musicFileName,music.musicName)">
             {{music.musicName}}
           </td>
           <td>
@@ -50,7 +47,7 @@
             {{music.description}}
           </td>
           <td>
-            <img class="playImg" src="{{playImg}}" alt="Red dot" (click)="playMusic(music.musicFileName)">
+              <img class="playImg" src="{{playImg}}" alt="Red dot" >
           </td>
           <td>
             <!-- <i class="fa fa-trash" aria-hidden="true" (click)="deleteMusic(music.id)"></i> -->
@@ -67,7 +64,7 @@
 <div class="row">
   <modal #myModal>
     <modal-header>
-      <h6>Add Album</h6>
+      <h6> Add Album</h6>
     </modal-header>
     <modal-content>
 
@@ -77,7 +74,7 @@
           <form [formGroup]="albumForm" (ngSubmit)="addAlbum(albumForm)">
 
             <div>
-              <label>Albums: </label>
+              <label>Albums:  </label>
               <select (change)="addMusicPlayer($event)">
                 <option value="0">--All--</option>
                 <option *ngFor="let album of musicAlbum" value={{album.id}}>
@@ -120,7 +117,7 @@
             </div>
 
             <div class="form-group">
-              <button class="btn btn-primary">AddAlbum</button>
+              <button class="btn btn-primary" (click)="validateAlbumForm()">Add Album</button>
             </div>
 
           </form>
@@ -160,7 +157,7 @@
 
 
     </modal-content>
-    <modal-footer style="padding:0%;">
+    <modal-footer>
 
     </modal-footer>
   </modal>

@@ -10,14 +10,14 @@ export class AuthenticationService implements CanActivate {
   constructor(private router: Router, private cookie: CookieService) {
 
   }
- 
+
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     console.log('calling Auth gaurd servce');
     const currentUser = this.cookie.get('username');
     const authToken = localStorage.getItem('currentUser');
-    
-    if (authToken && currentUser) {
+
+    if (this.isLoggedIn()) {
       console.log("Authorized User!!!!!!!!!");
       return true;
     } else {
@@ -26,5 +26,14 @@ export class AuthenticationService implements CanActivate {
       return false;
     }
 
+  }
+
+  isLoggedIn() {
+    const currentUser = this.cookie.get('username');
+    const authToken = localStorage.getItem('currentUser');
+    if (authToken && currentUser) {
+      return true;
+    }
+    return false;
   }
 }

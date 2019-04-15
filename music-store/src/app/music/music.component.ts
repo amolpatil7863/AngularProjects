@@ -7,6 +7,7 @@ import { MusicPlayer } from './MusicPlayer';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CookieService } from 'ngx-cookie-service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
 @Component({
   selector: 'app-music',
@@ -29,11 +30,6 @@ export class MusicComponent implements OnInit {
     private sanitizer: DomSanitizer, private route: ActivatedRoute,
     private router: Router) { }
 
- 
-
-
-
-
   ngOnInit() {
     this.userName = this.cookie.get('username');
     console.log('cookie name' + this.userName);
@@ -55,20 +51,11 @@ export class MusicComponent implements OnInit {
 
   }
 
-  playMusic(musicFile: string) {
+  playMusic(albumName: string, singerName: string, albumImage: string, musicFileName: string, musicName: string) {
 
-    this.audio.src = musicFile;
- 
-    console.log('status:::::' + this.audio.paused)
-    if (this.audio.paused) {
-      console.log('not playing will play');
-      this.audio.load();
-      this.audio.play();
-    } else {
-      console.log('playinh')
-      this.audio.pause();
-      
-    }
+    // console.log('music data:::'+JSON.stringify(this.musicAlbum));
+    // console.log('image file:::' + musicName);
+    this.router.navigate(['/music/song-info'], { queryParams: { albumName: albumName, singerName: singerName, image: albumImage, musicFileName: musicFileName, musicName: musicName } });
   }
 
 

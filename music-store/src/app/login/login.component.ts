@@ -4,6 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { LoginService } from '../login.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -13,15 +14,22 @@ import { CookieService } from 'ngx-cookie-service';
 export class LoginComponent implements OnInit {
 
   constructor(private loginService: LoginService, private route: ActivatedRoute, private cookie: CookieService,
-    private router: Router) { }
+    private router: Router, private authService: AuthenticationService) { }
   loginForm: FormGroup;
   loginFailure: boolean = false;
-  currentuser:string;
-
+  loginSuccess: boolean = false;
+  currentuser: string;
+  returnUrl: string;
   ngOnInit() {
+
+    if (this.authService.isLoggedIn()) {
+      console.log('logged in user');
+      this.router.navigate(['home']);
+
+    }
     this.loginForm = new FormGroup({
-      userName: new FormControl('',Validators.required),
-      password: new FormControl('',Validators.required)
+      userName: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required)
     });
   }
 
@@ -30,18 +38,16 @@ export class LoginComponent implements OnInit {
     this.loginService.login(form.value.userName, form.value.password)
       .subscribe(
         result => {
-          // console.log('result' + result);
+          this.loginSuccess = true;
           var headerData = result.headers.get("headerData");
           var data = headerData.split(',');
 
           var jwtToken = data[0];
           var role = data[1];
 
-          // console.log("Header data::::" + jwtToken + "roe" + role);
-          // login successful if there's a jwt token in the response
           if (result && jwtToken) {
             console.log('login success' + role);
-            this.currentuser=form.value.userName;
+            this.currentuser = form.value.userName;
             this.cookie.set('username', form.value.userName);
             // this.loginSuccess = true;
             this.loginFailure = false;
@@ -52,7 +58,7 @@ export class LoginComponent implements OnInit {
               console.log('ADMIN');
               this.router.navigate(['music/admin']);
             } else {
-              
+
               this.router.navigate(['music']);
             }
           } else {
@@ -74,7 +80,16 @@ export class LoginComponent implements OnInit {
 
 
 
-  public currentUserValue(userName:string): string {
-    return this.currentuser=userName;
-}
+  public currentUserValue(userName: string): string {
+    return this.currentuser = userName;
+  }
+
+  validateLoginForm() {
+    if (this.loginForm.invalid) {
+      this.loginForm.get('userName').markAsTouched();
+      this.loginForm.get('password').markAsTouched();
+      return false
+    }
+    return true;
+  }
 }

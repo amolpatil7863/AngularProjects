@@ -2,13 +2,15 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { MusicComponent } from './music/music.component';
 import { AdminComponent } from './admin/admin.component';
 import { AuthenticationService } from './authentication.service';
 import { AdminService } from './admin.service';
 import { ErrorComponent } from './error/error.component';
 import { NotfoundComponent } from './notfound/notfound.component';
+import { HomecomponentComponent } from './homecomponent/homecomponent.component';
+import { MusicplayComponent } from './musicplay/musicplay.component';
 
 const routes: Routes = [
   {
@@ -16,33 +18,42 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
-    path:'register',
+    path: 'register',
     component: RegisterComponent
   },
   {
-    path:'music',
-    component:MusicComponent,
+    path: 'music',
+    component: MusicComponent,
     canActivate: [AuthenticationService]
   },
-  // {
-  //   path:'',
-  //   component:LoginComponent
-  // },
   {
-    path:'music/admin',
-    component:AdminComponent,
-    canActivate: [AuthenticationService,AdminService]
+    path: 'home',
+    component: HomecomponentComponent
   },
   {
-    path:'error',
-    component:ErrorComponent
+    path: '',
+    component: HomecomponentComponent
   },
-  {path: '404', component: NotfoundComponent},
-  {path: '**', redirectTo: '/404'}
+  {
+    path: 'music/admin',
+    component: AdminComponent,
+    canActivate: [AuthenticationService, AdminService]
+  },
+  {
+    path:'music/song-info',
+    component:MusicplayComponent
+  },
+  {
+    path: 'error',
+    component: ErrorComponent
+  },
+  { path: '404', component: NotfoundComponent },
+  { path: '**', redirectTo: '/404' }
+  
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes),FormsModule],
+  imports: [RouterModule.forRoot(routes), FormsModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

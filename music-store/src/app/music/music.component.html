@@ -17,7 +17,7 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">ID</th>
+          <!-- <th scope="col">ID</th> -->
           <th scope="col">AlbumName</th>
           <th scope="col">AlbumImage</th>
           <th scope="col">Song</th>
@@ -29,13 +29,13 @@
 
       <tbody *ngFor="let album of musicAlbum">
         <tr *ngFor="let music of album.music;let i = index">
-          <td>{{album.id}} </td>
+          <!-- <td>{{album.id}} </td> -->
           <td>{{album.albumName }} <div>
             </div>
           </td>
           <td> <img src="{{album.albumImage}}" alt="Red dot" class="album-img" />
           </td>
-          <td>
+          <td (click)="playMusic(album.albumName,music.singerName,album.albumImage,music.musicFileName,music.musicName)">
             {{music.musicName}}
           </td>
           <td>
@@ -45,8 +45,8 @@
             {{music.description}}
           </td>
           <td>
-            <img class="playImg" src="{{playImg}}" alt="Red dot" (click)="playMusic(music.musicFileName)">
-   
+            <img class="playImg" src="{{playImg}}" alt="Red dot" >
+
           </td>
 
         </tr>
